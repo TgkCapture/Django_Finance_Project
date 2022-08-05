@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 import json
 from validate_email import validate_email
 from django.contrib import messages
+from django.core.mail import send_mail
+
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 
 class EmailValidationView(View):
@@ -56,10 +61,25 @@ class RegistrationView(View):
                 user = User.objects.create_user(
                     username=username, email=email, password=password)
                 user.set_password(password)
+                user.is_active = False
                 user.save()
+                email_subject = 'Activate your account'
+                email_body = 'Please click this link to activate your account: '
+
+                email = EmailMessage(
+                    email_subject,
+                    email_body,
+                    'noreply@mail.com' ,
+                    [email],                    
+                )
+                email.send(fail_silently=False)
                 messages.success(request, 'Registration successful')
                 return render(request, 'authentication/register.html')
 
+        return render(request, 'authentication/register.html')
+
+
+        
 
 class LoginView(View):
     def get(self, request):
