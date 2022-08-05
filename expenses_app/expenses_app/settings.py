@@ -136,3 +136,11 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 
 }
+
+# email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'tawongakanyenda5@gmail.com'
+EMAIL_HOST_PASSWORD = 'Tawogrant1212?'
+DEFAULT_FROM_EMAIL = 'tawongakanyenda5@gmail.com'
+EMAIL_USE_TLS = True
